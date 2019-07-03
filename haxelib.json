@@ -1,0 +1,16 @@
+{
+	"name": "better-hx",
+	"url": "https://github.com/dmitryhryppa/better-hx",
+	"license": "MIT",
+	"tags": [
+		"haxe",
+		"extensions"
+	],
+	"description": "Helper classes to make life easier.",
+	"version": "0.1.0",
+	"classPath": "src",
+	"releasenote": "See Changelog.md",
+	"contributors": [
+		"dmitryhryppa"
+	]
+}
