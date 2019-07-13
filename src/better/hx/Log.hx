@@ -39,14 +39,10 @@ class Log {
 		return history.join("");
 	}
 
-	public static function setup():Void {
-		haxe.Log.trace = info;
-	}
-
 	/**
-		Attach default Haxe trace function to the current Logf.info();
+		Attach default Haxe trace function to the current Log.info();
 	 */
-	public static function assign():Void {
+	public static function assignTraceToInfo():Void {
 		haxe.Log.trace = info;
 	}
 
@@ -55,7 +51,7 @@ class Log {
 		@param value - any value
 	 */
 	public static function verbose(value:Dynamic, decor:TextColor = FG_WHITE, ?pos:PosInfos):Void {
-		log(value, Loglevel.VERBOSE, decor, pos);
+		log(value, Verbose, decor, pos);
 	}
 
 	/**
@@ -65,7 +61,7 @@ class Log {
 	 */
 	public static function debug(value:Dynamic, decor:TextColor = FG_CYAN, ?pos:PosInfos):Void {
 		#if debug
-		log(value, Loglevel.DEBUG, decor, pos);
+		log(value, Debug, decor, pos);
 		#end
 	}
 
@@ -74,7 +70,7 @@ class Log {
 		@param value - any value
 	 */
 	public static function info(value:Dynamic, ?pos:PosInfos):Void {
-		log(value, Loglevel.INFO, TextColor.FG_WHITE, pos);
+		log(value, Info, TextColor.FG_WHITE, pos);
 	}
 
 	/**
@@ -82,7 +78,7 @@ class Log {
 		@param value - any value
 	 */
 	public static function warn(value:Dynamic, decor:TextColor = FG_YELLOW, ?pos:PosInfos):Void {
-		log(value, Loglevel.WARN, decor, pos);
+		log(value, Warn, decor, pos);
 	}
 
 	/**
@@ -90,7 +86,7 @@ class Log {
 		@param value - any value
 	 */
 	public static function error(value:Dynamic, decor:TextColor = FG_RED, ?pos:PosInfos):Void {
-		log(value, Loglevel.ERROR, decor, pos);
+		log(value, Error, decor, pos);
 	}
 
 	/**
@@ -101,7 +97,7 @@ class Log {
 		if (decor == TextColor.BG_RED) {
 			decor |= TextColor.FG_WHITE;
 		}
-		log(value, Loglevel.CRITICAL, decor, pos);
+		log(value, Critical, decor, pos);
 	}
 
 	/**
@@ -109,7 +105,7 @@ class Log {
 		@param value - any value
 	 */
 	public static function success(value:Dynamic, decor:TextColor = TextColor.FG_GREEN, ?pos:PosInfos):Void {
-		log(value, Loglevel.SUCCESS, decor, pos);
+		log(value, Success, decor, pos);
 	}
 
 	/**
@@ -117,45 +113,49 @@ class Log {
 		@param value - any value
 	 */
 	inline static function log(value:Dynamic, loglevel:Loglevel, decor:TextColor, ?pos:PosInfos):Void {
-		final valueStr:String = Std.string(value);
+		final valueStr = Std.string(value);
 		final scheme:String = '[$loglevel][${pos.className}]';
-		var methodInfo:String = "";
-		var customParams:String = "";
+		var methodInfo = '${pos.methodName}:${pos.lineNumber}';
+		var customParams = "";
 		if (pos.customParams != null) {
 			for (v in pos.customParams) {
 				customParams += ", " + Std.string(v);
 			}
 		}
 
-		methodInfo = '${pos.methodName}:${pos.lineNumber}';
+		final out = '$scheme > $methodInfo > $valueStr';
 		#if js
-		final console = #if nodejs js.Node.console; #else js.Browser.console; #end
-		console.log('$decor$scheme > $methodInfo > $valueStr${TextColor.RESET}');
+		final c = #if nodejs js.Node.console; #else js.Browser.console; #end
+		c.log('$decor$out${TextColor.RESET}');
 		#elseif cpp
-			#if ios
-			cpp.objc.NSLog.log(cpp.objc.NSString.fromString('[$loglevel]$out'));
+			#if (ios||macos)
+			cpp.objc.NSLog.log(cpp.objc.NSString.fromString(out));
 			#else
-			throw "Not implemented.";
+			cpp.Lib.println(out);
 			#end
 		#elseif java
 			#if android
 			switch loglevel {
-				case Warn: {
-						android.util.Log.w('[$loglevel]', out);
-					}
-				case Debug: {
-						android.util.Log.d('[$loglevel]', out);
-					}
-				case Error, Critical: {
-						android.util.Log.e('[$loglevel]', out);
-					}
-				default: {
-						android.util.Log.i('[$loglevel]', out);
-					}
+				case Warn:
+					untyped __java__('android.util.Log.w("[{0}]", {1})', scheme, out);
+				case Debug:
+					untyped __java__('android.util.Log.d("[{0}]", {1})', scheme, out);
+				case Error, Critical:
+					untyped __java__('android.util.Log.e("[{0}]", {1})', scheme, out);
+				default:
+					untyped __java__('android.util.Log.i("[{0}]", {1})', scheme, out);
 			}
+			#else
+			java.Lib.println('[$loglevel]$out');
 			#end
+		#elseif lua
+		untyped __define_feature__("use._hx_print",_hx_print(str));
 		#else
+			#if sys
+			Sys.println('[$loglevel]$out');
+			#else
 			throw "Not implemented.";
+			#end
 		#end
 
 		writeHistory(scheme, methodInfo, valueStr, customParams, loglevel);
@@ -169,14 +169,14 @@ class Log {
 		@param loglevel -
 	 */
 	static inline function writeHistory(scheme:String, methodInfo:String, value:String, customParams:String, loglevel:Loglevel):Void {
-		final date:Date = Date.now();
-		final result:String = '
+		final date = Date.now();
+		final result = '
 			<strong>${date.toString()} > $scheme > $methodInfo<br>
 				$value
 			</strong>
 		';
 		switch loglevel {
-			case INFO: {
+			case Info: {
 					history.push('
 						<div class="card-body text-muted link text-monospace">
 							${date.toString()} > $scheme<br>
@@ -184,42 +184,42 @@ class Log {
 						</div>
 					');
 				}
-			case WARN: {
+			case Warn: {
 					history.push('
 						<div class="border-left border-warning card-body text-warning text-monospace">
 							$result
 						</div>
 					');
 				}
-			case DEBUG: {
+			case Debug: {
 					history.push('
 						<div class="border-left border-info card-body text-info text-monospace">
 							$result
 						</div>
 					');
 				}
-			case VERBOSE: {
+			case Verbose: {
 					history.push('
 						<div class="card-body text-dark text-monospace">
 							$result
 						</div>
 					');
 				}
-			case CRITICAL: {
+			case Critical: {
 					history.push('
 						<div class="border-left border-danger card-body text-white bg-danger text-monospace">
 							$result
 						</div>
 					');
 				}
-			case ERROR: {
+			case Error: {
 					history.push('
 						<div class="border-left border-danger card-body text-danger text-monospace">
 							$result
 						</div>
 					');
 				}
-			case SUCCESS: {
+			case Success: {
 					history.push('
 						<div class="border-left border-success card-body text-success text-monospace">
 							$result
@@ -232,11 +232,11 @@ class Log {
 
 
 private enum abstract Loglevel(String) to String {
-	var VERBOSE = "VERB";
-	var DEBUG = "DEBG";
-	var INFO = "INFO";
-	var WARN = "WARN";
-	var ERROR = "ERRR";
-	var CRITICAL = "CRIT";
-	var SUCCESS = "SCSS";
+	var Verbose = "VERB";
+	var Debug = "DEBG";
+	var Info = "INFO";
+	var Warn = "WARN";
+	var Error = "ERRR";
+	var Critical = "CRIT";
+	var Success = "SCSS";
 }
