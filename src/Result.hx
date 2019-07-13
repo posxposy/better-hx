@@ -1,4 +1,4 @@
-package src;
+package;
 
 /**
 	Result is a wrapper type which can be `Success` and contain optional data in it
