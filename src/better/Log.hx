@@ -1,4 +1,5 @@
-package better.hx;
+package better;
+
 import haxe.PosInfos;
 
 enum abstract TextColor(String) to String from String {
@@ -128,34 +129,34 @@ class Log {
 		final c = #if nodejs js.Node.console; #else js.Browser.console; #end
 		c.log('$decor$out${TextColor.RESET}');
 		#elseif cpp
-			#if (ios||macos)
-			cpp.objc.NSLog.log(cpp.objc.NSString.fromString(out));
-			#else
-			cpp.Lib.println(out);
-			#end
-		#elseif java
-			#if android
-			switch loglevel {
-				case Warn:
-					untyped __java__('android.util.Log.w("[{0}]", {1})', scheme, out);
-				case Debug:
-					untyped __java__('android.util.Log.d("[{0}]", {1})', scheme, out);
-				case Error, Critical:
-					untyped __java__('android.util.Log.e("[{0}]", {1})', scheme, out);
-				default:
-					untyped __java__('android.util.Log.i("[{0}]", {1})', scheme, out);
-			}
-			#else
-			java.Lib.println('[$loglevel]$out');
-			#end
-		#elseif lua
-		untyped __define_feature__("use._hx_print",_hx_print(str));
+		#if (ios || macos)
+		cpp.objc.NSLog.log(cpp.objc.NSString.fromString(out));
 		#else
-			#if sys
-			Sys.println('[$loglevel]$out');
-			#else
-			throw "Not implemented.";
-			#end
+		cpp.Lib.println(out);
+		#end
+		#elseif java
+		#if android
+		switch loglevel {
+			case Warn:
+				untyped __java__('android.util.Log.w("[{0}]", {1})', scheme, out);
+			case Debug:
+				untyped __java__('android.util.Log.d("[{0}]", {1})', scheme, out);
+			case Error, Critical:
+				untyped __java__('android.util.Log.e("[{0}]", {1})', scheme, out);
+			default:
+				untyped __java__('android.util.Log.i("[{0}]", {1})', scheme, out);
+		}
+		#else
+		java.Lib.println(out);
+		#end
+		#elseif lua
+		untyped __define_feature__("use._hx_print", _hx_print(str));
+		#else
+		#if sys
+		Sys.println(out);
+		#else
+		throw "Not implemented.";
+		#end
 		#end
 
 		writeHistory(scheme, methodInfo, valueStr, customParams, loglevel);
@@ -176,60 +177,52 @@ class Log {
 			</strong>
 		';
 		switch loglevel {
-			case Info: {
-					history.push('
-						<div class="card-body text-muted link text-monospace">
-							${date.toString()} > $scheme<br>
-							$value$customParams
-						</div>
-					');
-				}
-			case Warn: {
-					history.push('
-						<div class="border-left border-warning card-body text-warning text-monospace">
-							$result
-						</div>
-					');
-				}
-			case Debug: {
-					history.push('
-						<div class="border-left border-info card-body text-info text-monospace">
-							$result
-						</div>
-					');
-				}
-			case Verbose: {
-					history.push('
-						<div class="card-body text-dark text-monospace">
-							$result
-						</div>
-					');
-				}
-			case Critical: {
-					history.push('
-						<div class="border-left border-danger card-body text-white bg-danger text-monospace">
-							$result
-						</div>
-					');
-				}
-			case Error: {
-					history.push('
-						<div class="border-left border-danger card-body text-danger text-monospace">
-							$result
-						</div>
-					');
-				}
-			case Success: {
-					history.push('
-						<div class="border-left border-success card-body text-success text-monospace">
-							$result
-						</div>
-					');
-				}
+			case Info:
+				history.push('
+					<div class="card-body text-muted link text-monospace">
+						${date.toString()} > $scheme<br>
+						$value$customParams
+					</div>
+				');
+			case Warn:
+				history.push('
+					<div class="border-left border-warning card-body text-warning text-monospace">
+						$result
+					</div>
+				');
+			case Debug:
+				history.push('
+					<div class="border-left border-info card-body text-info text-monospace">
+						$result
+					</div>
+				');
+			case Verbose:
+				history.push('
+					<div class="card-body text-dark text-monospace">
+						$result
+					</div>
+				');
+			case Critical:
+				history.push('
+					<div class="border-left border-danger card-body text-white bg-danger text-monospace">
+						$result
+					</div>
+				');
+			case Error:
+				history.push('
+					<div class="border-left border-danger card-body text-danger text-monospace">
+						$result
+					</div>
+				');
+			case Success:
+				history.push('
+					<div class="border-left border-success card-body text-success text-monospace">
+						$result
+					</div>
+				');
 		}
 	}
 }
-
 
 private enum abstract Loglevel(String) to String {
 	var Verbose = "VERB";
