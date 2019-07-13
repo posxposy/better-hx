@@ -2,6 +2,8 @@ package better;
 
 import haxe.PosInfos;
 
+using StringBufExt;
+
 enum abstract TextColor(String) to String from String {
 	var RESET = "\x1b[0m";
 	var BRIGHT = "\x1b[1m";
@@ -36,8 +38,27 @@ enum abstract TextColor(String) to String from String {
 class Log {
 	static var history(default, never):Array<String> = [];
 
-	public static function getHistory():String {
-		return history.join("");
+	public static function toHTML():String {
+		final buf = new StringBuf();
+		buf.addLine('<!doctype html>');
+		buf.addLine('<html lang="en">');
+		buf.addLine('<head>');
+		buf.addLine('<meta charset="utf-8">');
+		buf.addLine('<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">');
+		buf.addLine('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">');
+		buf.addLine('<title>App logs</title>');
+		buf.addLine('</head>');
+		buf.addLine('<body style="margin:15px;">');
+		buf.addLine('<div class="container">');
+		buf.addLine('<h3>Server logs</h3><br>');
+		buf.addLine(history.join(""));
+		buf.addLine('</div>');
+		buf.addLine('<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>');
+		buf.addLine('<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>');
+		buf.addLine('<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>');
+		buf.addLine('</body>');
+		buf.addLine('</html>');
+		return buf.toString();
 	}
 
 	/**
