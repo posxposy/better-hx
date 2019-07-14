@@ -1,4 +1,4 @@
-package;
+package better;
 
 import haxe.PosInfos;
 import better.Log;
