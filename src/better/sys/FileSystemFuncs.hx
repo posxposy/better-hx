@@ -1,11 +1,12 @@
-package sys;
+package better.sys;
 
 import haxe.io.Path;
 import sys.io.File;
 import sys.FileSystem;
+
 using StringTools;
 
-class FileSystemExt {
+class FileSystemFuncs {
 	public static function copyDirRecursively(cl:Class<FileSystem>, from:String, to:String):Void {
 		final entries:Array<String> = FileSystem.readDirectory(from);
 		for (entry in entries) {
