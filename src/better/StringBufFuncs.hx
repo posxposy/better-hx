@@ -1,6 +1,6 @@
 package;
 
-class StringBufExt {
+class StringBufFuncs {
 	public static inline function addLine(buf:StringBuf, line:String, indents:Int = 0):Void {
 		for (i in 0...indents) {
 			buf.add("\t");
