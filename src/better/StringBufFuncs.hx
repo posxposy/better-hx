@@ -1,4 +1,4 @@
-package;
+package better;
 
 class StringBufFuncs {
 	public static inline function addLine(buf:StringBuf, line:String, indents:Int = 0):Void {

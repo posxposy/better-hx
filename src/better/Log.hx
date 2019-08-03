@@ -2,7 +2,7 @@ package better;
 
 import haxe.PosInfos;
 
-using StringBufExt;
+using better.StringBufFuncs;
 
 enum abstract TextColor(String) to String from String {
 	var RESET = "\x1b[0m";
