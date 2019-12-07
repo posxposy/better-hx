@@ -1,0 +1,9 @@
+{
+	"haxeTestExplorer.testCommand": [
+		"${haxe}",
+		"test.hxml",
+		"-L",
+		"test-adapter"
+	],
+	"haxeTestExplorer.launchConfiguration": "Haxe Interpreter"
+}

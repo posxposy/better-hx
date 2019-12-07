@@ -1,0 +1,5 @@
+-L test-adapter
+-L utest
+-p ../src
+-main Main
+--interp
