@@ -16,4 +16,9 @@ final class StringTests extends Test {
 		final str2 = "test";
 		Assert.isTrue(!str1.isNotEmpty() && str2.isNotEmpty());
 	}
+
+	public function test_parseJson() {
+		final obj:{hello:String} = '{"hello":"World"}'.parseJson();
+		Assert.equals(obj.hello, "World");
+	}
 }
