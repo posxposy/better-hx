@@ -1,7 +1,7 @@
 package better;
 
 @:publicFields
-final class ArrayFuncs {
+final class ArrayExtensions {
 	static inline function clear<T>(a:Array<T>):Void {
 		while (a.length > 0) {
 			a.pop();

@@ -2,7 +2,7 @@ package tests;
 
 import utest.Assert;
 import utest.Test;
-using better.ArrayFuncs;
+using better.ArrayExtensions;
 
 final class ArrayFuncTests extends Test {
 	function test_clear():Void {
