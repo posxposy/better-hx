@@ -1,15 +1,12 @@
 package better;
 
-/*
-	Created at: 13 February 2019
-	[Description]
- */
+@:publicFields
 final class StringFuncs {
-	public static inline function isEmpty(str:String):Bool {
-		return str.length == 0;
+	static inline function isEmpty(value:String):Bool {
+		return value.length == 0;
 	}
 
-	public static inline function isNotEmpty(str:String):Bool {
-		return str.length > 0;
+	static inline function isNotEmpty(value:String):Bool {
+		return value.length > 0;
 	}
 }

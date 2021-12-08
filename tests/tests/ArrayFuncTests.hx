@@ -13,12 +13,12 @@ final class ArrayFuncTests extends Test {
 
 	function test_getFirst():Void {
 		final a:Array<Int> = [1, 2, 3, 4, 5];
-		Assert.equals(a.getFirst(), 1);
+		Assert.equals(a.first(), 1);
 	}
 
 	function test_getLast():Void {
 		final a:Array<Int> = [1, 2, 3, 4, 5];
-		Assert.equals(a.getLast(), 5);
+		Assert.equals(a.last(), 5);
 	}
 
 	function test_get():Void {
@@ -30,6 +30,12 @@ final class ArrayFuncTests extends Test {
 		final a1:Array<Int> = [];
 		final a2:Array<Int> = [1, 2, 3];
 		Assert.isTrue(a1.isEmpty() && !a2.isEmpty());
+	}
+
+	function test_isNotEmpty():Void {
+		final a1:Array<Int> = [];
+		final a2:Array<Int> = [1, 2, 3];
+		Assert.isTrue(!a1.isNotEmpty() && a2.isNotEmpty());
 	}
 
 	function test_fill():Void {

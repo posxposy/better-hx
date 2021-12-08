@@ -1,5 +1,5 @@
--L test-adapter
--L utest
--p ../src
+--library test-adapter
+--library utest
+--class-path ../src
 -main Main
 --interp
