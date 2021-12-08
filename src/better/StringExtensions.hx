@@ -1,7 +1,7 @@
 package better;
 
 @:publicFields
-final class StringFuncs {
+final class StringExtensions{
 	static inline function isEmpty(value:String):Bool {
 		return value.length == 0;
 	}

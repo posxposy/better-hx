@@ -2,9 +2,9 @@ package tests;
 
 import utest.Assert;
 import utest.Test;
-using better.StringFuncs;
+using better.StringExtensions;
 
-final class StringFuncTests extends Test {
+final class StringTests extends Test {
 	public function test_IsEmpty() {
 		final str1 = "";
 		final str2 = "test";

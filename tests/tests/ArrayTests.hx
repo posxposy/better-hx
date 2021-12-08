@@ -4,7 +4,7 @@ import utest.Assert;
 import utest.Test;
 using better.ArrayExtensions;
 
-final class ArrayFuncTests extends Test {
+final class ArrayTests extends Test {
 	function test_clear():Void {
 		final a:Array<Int> = [1, 2, 3, 4, 5];
 		a.clear();

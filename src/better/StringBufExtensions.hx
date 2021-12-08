@@ -1,7 +1,7 @@
 package better;
 
 @:publicFields
-class StringBufFuncs {
+class StringBufExtensions {
 	static inline function addLine(buf:StringBuf, line:String, indents:Int = 0):Void {
 		for (_ in 0...indents) {
 			buf.add("\t");

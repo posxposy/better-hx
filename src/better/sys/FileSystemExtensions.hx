@@ -6,7 +6,7 @@ import sys.FileSystem;
 
 using StringTools;
 
-class FileSystemFuncs {
+class FileSystemExtensions {
 	public static function copyDirRecursively(cl:Class<FileSystem>, from:String, to:String):Void {
 		final entries:Array<String> = FileSystem.readDirectory(from);
 		for (entry in entries) {
