@@ -28,6 +28,28 @@ final class ArrayExtensions {
 		return a.length != 0;
 	}
 
+	static inline function max<T:Float>(a:Array<T>):T {
+		var result:T = a[0];
+		for (i in 1...a.length) {
+			final value = a[i];
+			if (value > result) {
+				result = value;
+			}
+		}
+		return result;
+	}
+
+	static inline function min<T:Float>(a:Array<T>):T {
+		var result:T = a[0];
+		for (i in 1...a.length) {
+			final value = a[i];
+			if (value < result) {
+				result = value;
+			}
+		}
+		return result;
+	}
+
 	static function fill<T>(a:Array<T>, value:T, ?length:Int):Array<T> {
 		final l:Int = if (length == null) {
 			a.length;
