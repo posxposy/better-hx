@@ -13,4 +13,16 @@ final class IterableTests extends Test{
 		Assert.equals(r1.length, 2);
 		Assert.equals(r2.length, 0);
 	}
+
+	function test_firstWhere():Void {
+		final a:Array<Int> = [1, 2, 2, 4, 5];
+		final r = a.firstWhere((e) -> e == 2);
+		Assert.equals(r, 2);
+	}
+
+	function test_lastWhere():Void {
+		final a:Array<Int> = [1, 2, 2, 4, 5];
+		final r = a.lastWhere((e) -> e == 4);
+		Assert.equals(r, 4);
+	}
 }
