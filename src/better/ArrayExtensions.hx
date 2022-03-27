@@ -65,4 +65,30 @@ final class ArrayExtensions {
 		}
 		return a;
 	}
+
+	/**
+	 * Creates an array of elements split into groups the length of size. If array can't be split evenly, the final chunk will be the remaining elements.
+	 * @param a The array to process
+	 * @param size The length of each chunk
+	 * @return Returns the new array of chunks `Array<Array<T>>` .
+	 */
+	static function chunk<T>(a:Array<T>, size:Int):Array<Array<T>> {
+		var chunksCount = Math.round(a.length / size);
+		var chunks:Array<Array<T>> = [];
+
+		var offset = 0;
+		for (_ in 0...chunksCount) {
+			var chunk:Array<T> = [];
+			for (i in 0...size) {
+				var idx = i + offset;
+				if (idx < a.length) {
+					chunk.push(a[i + offset]);
+				}
+			}
+			offset += size;
+			chunks.push(chunk);
+		}
+
+		return chunks;
+	}
 }

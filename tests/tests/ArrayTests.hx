@@ -56,4 +56,28 @@ final class ArrayTests extends Test {
 		a.fill(1, 3);
 		Assert.same(a, [1, 1, 1]);
 	}
+
+	function test_chunk_even():Void {
+		final a = ["a", "b", "c", "d"];
+		final result = a.chunk(2);
+		Assert.same(result, [["a", "b"], ["c", "d"]]);
+	}
+
+	function test_chunk_odd():Void {
+		final a = ["a", "b", "c"];
+		final result = a.chunk(2);
+		Assert.same(result, [["a", "b"], ["c"]]);
+	}
+
+	function test_chunk_empty():Void {
+		final a = [];
+		final result = a.chunk(2);
+		Assert.isTrue(result.length == 0);
+	}
+
+	function test_chunk_one_element():Void {
+		final a = [1];
+		final result = a.chunk(2);
+		Assert.same(result, [[1]]);
+	}
 }
