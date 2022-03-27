@@ -8,6 +8,7 @@ final class Main {
 		runner.addCase(new StringTests());
 		runner.addCase(new ArrayTests());
 		runner.addCase(new IterableTests());
+		runner.addCase(new FloatTests());
 		final report = Report.create(runner);
 		runner.run();
 	}
