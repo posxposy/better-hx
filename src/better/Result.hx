@@ -14,15 +14,14 @@ enum Result<T> {
 	Failure(errorMessage:String);
 }
 
-class ResultExt {
-	public static inline function log<T>(resp:Result<T>, ?pos:PosInfos):Result<T> {
+@:publicFields
+class ResultExtensions {
+	static inline function log<T>(resp:Result<T>, ?pos:PosInfos):Result<T> {
 		switch (resp) {
 			case Failure(msg):
 				Log.error(msg, pos);
-			case Success(data):
-				if (data != null) {
-					Log.success(data);
-				}
+			case Success(data) if (data != null):
+				Log.success(data);
 		};
 		return resp;
 	}

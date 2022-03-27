@@ -1,7 +1,6 @@
 package better;
 
 import haxe.Json;
-import haxe.io.Encoding;
 
 @:publicFields
 final class StringExtensions{

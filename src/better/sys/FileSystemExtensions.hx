@@ -4,10 +4,9 @@ import haxe.io.Path;
 import sys.io.File;
 import sys.FileSystem;
 
-using StringTools;
-
+@:publicFields
 class FileSystemExtensions {
-	public static function copyDirRecursively(cl:Class<FileSystem>, from:String, to:String):Void {
+	static function copyDirRecursively(cl:Class<FileSystem>, from:String, to:String):Void {
 		final entries:Array<String> = FileSystem.readDirectory(from);
 		for (entry in entries) {
 			if (FileSystem.isDirectory('$from/$entry')) {
