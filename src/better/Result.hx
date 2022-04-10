@@ -8,7 +8,7 @@ import better.Log;
 	or `Failure` and contain failure message.
 	It is similar to `haxe.ds.Optional`.
  */
-@:using(Result.ResultExt)
+@:using(Result.ResultExtensions)
 enum Result<T> {
 	Success(?data:T);
 	Failure(errorMessage:String);
@@ -22,6 +22,7 @@ class ResultExtensions {
 				Log.error(msg, pos);
 			case Success(data) if (data != null):
 				Log.success(data);
+			case _:
 		};
 		return resp;
 	}
