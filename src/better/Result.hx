@@ -7,7 +7,7 @@ import haxe.PosInfos;
 	or `Failure` and contain failure message.
 	It is similar to `haxe.ds.Optional`.
  */
-enum Result<T> {
-	Success(?data:T);
-	Failure(errorMessage:String);
+enum Result<TData, TFailure> {
+	Success(data:TData);
+	Failure(failure:TFailure);
 }
