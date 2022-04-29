@@ -9,6 +9,7 @@ final class Main {
 		runner.addCase(new ArrayTests());
 		runner.addCase(new IterableTests());
 		runner.addCase(new FloatTests());
+		runner.addCase(new AnyTests());
 		final report = Report.create(runner);
 		runner.run();
 	}

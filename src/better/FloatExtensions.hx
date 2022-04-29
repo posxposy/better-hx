@@ -1,7 +1,7 @@
 package better;
 
 @:publicFields
-class FloatExtensions {
+final class FloatExtensions {
 	/**
 		Round float number to selected precision
 		@param precision
